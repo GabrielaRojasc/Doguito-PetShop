@@ -1,7 +1,13 @@
-const crearNuevaLinea = () => {
-    `<tr>
-    <td class="td" data-td>Gabriela</td>
-    <td>gabriela@alura.com</td>
+const crearNuevaLinea = (nombre,email) => {
+    const linea = document.createElement("tr");
+    const contenido = 
+    `
+    <td class="td" data-td>
+    ${nombre}
+    </td>
+    <td>
+    ${email}
+    </td>
     <td>
       <ul class="table__button-control">
         <li>
@@ -21,9 +27,12 @@ const crearNuevaLinea = () => {
         </li>
       </ul>
     </td>
-  </tr>`
+  </tr>`;
+  linea.innerHTML = contenido;
+  return linea
 };
 
+const table = document.querySelector("[data-table]");
 
 const http = new XMLHttpRequest(); //una clase que comunica entre el frontend y el backend
 
@@ -36,7 +45,18 @@ http.send(); //se va a encargar de enviar la peticion, desde nuestro navegar o  
 
 http.onload = ( )=>{ //una vez que cargues o termines de recibir una respuesta, vas a de ejecutar una funcion
 
-    const data = http.response
-    console.log(data); //nos regresa la informacion que tenemos en el servidor
-} 
+    const data = JSON.parse(http.response)
+    data.forEach(perfil => {
+    const nuevaLinea = crearNuevaLinea(perfil.nombre,perfil.email)
+    table.appendChild(nuevaLinea);
+    
+   }); //nos regresa la informacion que tenemos en el servidor
+
+    const http2 = new XMLHttpRequest();
+    http2.open("GET", "http://localhost:3000/perfil/hoy");
+    http.send();
+    http2.onload = () => { 
+    const data2 = JSON.parse(https2.response)
+    };
+}; 
 console.log(http);
